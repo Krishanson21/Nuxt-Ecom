@@ -17,8 +17,8 @@
       </nav>
 
       <div class="hero-banner">
-          <img src="/images/hero-phone.png" alt="Two premium iPhone 14 Pro Max handsets showing front display screens"
-            class="hero-phone-img" />
+        <img src="/images/hero-phone.png" alt="Two iPhone 14"
+          class="hero-phone-img" />
       </div>
     </section>
 
@@ -77,28 +77,28 @@
         </div>
       </div>
       <div class="categories-grid">
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Phones"><img src="/images/i1.png" alt="Phone icon" width="58px"
-            class="category-icon-img" />
+        <div class="category-box" tabindex="0" role="button" aria-label="Browse Phones"><img src="/images/i1.png"
+            alt="Phone icon" width="58px" class="category-icon-img" />
           <p>Phones</p>
         </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Computers"><img src="/images/i2.png" alt="Computer icon"
-            class="category-icon-img" />
+        <div class="category-box" tabindex="0" role="button" aria-label="Browse Computers"><img src="/images/i2.png"
+            alt="Computer icon" class="category-icon-img" />
           <p>Computers</p>
         </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Smartwatches"><img src="/images/i3.png" alt="Smartwatches icon"
-            class="category-icon-img" />
+        <div class="category-box" tabindex="0" role="button" aria-label="Browse Smartwatches"><img src="/images/i3.png"
+            alt="Smartwatches icon" class="category-icon-img" />
           <p>SmartWatch</p>
         </div>
-        <div class="category-box active" tabindex="0" role="button" aria-label="Browse Cameras"><img src="/images/i4.png" alt="Cameras icon"
-            class="category-icon-img" />
+        <div class="category-box active" tabindex="0" role="button" aria-label="Browse Cameras"><img
+            src="/images/i4.png" alt="Cameras icon" class="category-icon-img" />
           <p>Camera</p>
         </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Headphones"><img src="/images/i5.png" alt="Headphones icon"
-            class="category-icon-img" />
+        <div class="category-box" tabindex="0" role="button" aria-label="Browse Headphones"><img src="/images/i5.png"
+            alt="Headphones icon" class="category-icon-img" />
           <p>HeadPhones</p>
         </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Gaming Consoles"><img src="/images/i6.png" alt="Console icon"
-            class="category-icon-img" />
+        <div class="category-box" tabindex="0" role="button" aria-label="Browse Gaming Consoles"><img
+            src="/images/i6.png" alt="Console icon" class="category-icon-img" />
           <p>Gaming</p>
         </div>
       </div>
@@ -117,7 +117,7 @@
 
     <section class="promo-music-section" aria-label="Special Speaker Offer Promotion" style="margin-top: 90px;">
       <div class="promo-img-box">
-        <img src="/images/speaker.png" alt="A large portable wireless bluetooth boombox speaker" class="boombox-img" />
+        <img src="/images/speaker.png" alt="bluetooth speaker" class="boombox-img" />
       </div>
     </section>
 
