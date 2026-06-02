@@ -1,13 +1,7 @@
 <template>
   <article class="product-card">
-    <div 
-      class="img-wrapper" 
-      @click="$emit('add-to-cart', product)" 
-      role="button" 
-      :aria-label="`Add ${product.name} to cart`" 
-      tabindex="0" 
-      @keydown.enter="$emit('add-to-cart', product)"
-    >
+    <div class="img-wrapper" @click="$emit('add-to-cart', product)" role="button"
+      :aria-label="`Add ${product.name} to cart`" tabindex="0" @keydown.enter="$emit('add-to-cart', product)">
       <span v-if="product.discount" class="discount-badge" aria-label="Discount amount">
         -{{ product.discount }}%
       </span>
@@ -16,15 +10,13 @@
       </span>
 
       <div class="card-icons" @click.stop>
-        <button aria-label="Add item to Wishlist" style=" border: none; padding: 0; cursor: pointer;"><i class="fa-regular fa-heart" aria-hidden="true"></i></button>
-        <button aria-label="Quick view product details" style=" border: none; padding: 0; cursor: pointer;"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+        <button aria-label="Add item to Wishlist" style=" border: none; padding: 0; cursor: pointer;"><i
+            class="fa-regular fa-heart" aria-hidden="true"></i></button>
+        <button aria-label="Quick view product details" style=" border: none; padding: 0; cursor: pointer;"><i
+            class="fa-regular fa-eye" aria-hidden="true"></i></button>
       </div>
 
-      <img 
-        :src="product.image" 
-        :alt="product.altText" 
-        class="product-item-img" 
-      />
+      <img :src="product.image" :alt="product.altText" class="product-item-img" />
 
       <button class="add-to-cart-btn" tabindex="-1" aria-hidden="true">Add To Cart</button>
     </div>
@@ -32,7 +24,7 @@
     <div class="card-details">
       <h3>{{ product.name }}</h3>
       <p class="price-row">
-        <span class="price-current">${{ product.price }}</span> 
+        <span class="price-current">${{ product.price }}</span>
         <span v-if="product.oldPrice" class="price-old">
           <del>${{ product.oldPrice }}</del>
         </span>
@@ -53,3 +45,52 @@ defineProps({
 })
 defineEmits(['add-to-cart'])
 </script>
+
+<style scoped>
+.img-wrapper .card-icons {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+}
+
+.img-wrapper .card-icons button {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    max-width: 34px;
+    max-height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.img-wrapper .card-icons button:hover {
+    background-color: #ffffff;
+    color: #db4444;
+}
+
+.img-wrapper .card-icons button:active {
+    transform: translateY(2px);
+}
+
+.img-wrapper .card-icons button i {
+    font-size: 16px;
+    display: inline-block;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+</style>

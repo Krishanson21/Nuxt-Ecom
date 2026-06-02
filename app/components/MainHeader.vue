@@ -15,7 +15,7 @@
           <NuxtLink to="/" active-class="active">Home</NuxtLink>
           <a href="#">Contact</a>
           <a href="#">About</a>
-          <NuxtLink to="/signup" active-class="active">Sign Up</NuxtLink>
+          <NuxtLink v-if="!isLoggedIn" to="/signup" class="signup-nav-btn" active-class="active">Sign Up</NuxtLink>
         </nav>
 
         <div class="header-actions">

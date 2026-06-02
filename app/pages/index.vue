@@ -17,8 +17,7 @@
       </nav>
 
       <div class="hero-banner">
-        <img src="/images/hero-phone.png" alt="Two iPhone 14"
-          class="hero-phone-img" />
+        <img src="/images/hero-phone.png" alt="Two iPhone 14" class="hero-phone-img" />
       </div>
     </section>
 
@@ -26,44 +25,48 @@
       <div class="section-tag" aria-hidden="true">Today's</div>
       <div class="section-header-row">
         <h2 id="flash-sale-heading" class="section-title">Flash Sales</h2>
-        <div class="countdown-clock" role="timer" aria-label="Sales ends in 3 days, 23 hours, 19 minutes, 56 seconds">
+        <div class="countdown-clock" role="timer" :aria-label="`Flash sales end in ${dayView} days, ${hourView} hours`">
           <div class="time-segment">
             <span class="label">Days</span>
-            <span class="num">03</span>
+            <span class="num">{{ dayView }}</span>
           </div>
           <span class="colon" aria-hidden="true">:</span>
 
           <div class="time-segment">
             <span class="label">Hours</span>
-            <span class="num">23</span>
+            <span class="num">{{ hourView }}</span>
           </div>
           <span class="colon" aria-hidden="true">:</span>
 
           <div class="time-segment">
             <span class="label">Minutes</span>
-            <span class="num">19</span>
+            <span class="num">{{ minView }}</span>
           </div>
           <span class="colon" aria-hidden="true">:</span>
 
           <div class="time-segment">
             <span class="label">Seconds</span>
-            <span class="num">56</span>
+            <span class="num">{{ secView }}</span>
           </div>
         </div>
         <div class="slider-arrows" aria-hidden="true">
-          <button class="arrow-btn" aria-label="Previous flash sale products"><i
-              class="fa-solid fa-arrow-left"></i></button>
-          <button class="arrow-btn" aria-label="Next flash sale products"><i
-              class="fa-solid fa-arrow-right"></i></button>
+          <button class="arrow-btn" aria-label="Previous" @click="UniversalSlide('flash', 'back')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="arrow-btn" aria-label="Next" @click="UniversalSlide('flash', 'forward')">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
       </div>
 
-      <div class="products-grid">
+      <div ref="saleScroller" class="products-grid dynamic-slider">
         <ProductCard v-for="product in flashSaleProducts" :key="product.id" :product="product"
           @add-to-cart="addToCart" />
       </div>
       <div class="center-btn-wrapper">
-        <button class="btn-red text-center">View All Products</button>
+        <NuxtLink to="/products" class="btn-red text-center display-inline-block">
+          View All Products
+        </NuxtLink>
       </div>
     </section>
 
@@ -72,11 +75,13 @@
       <div class="section-header-row">
         <h2 id="category-heading" class="section-title">Browse By Category</h2>
         <div class="slider-arrows" aria-hidden="true">
-          <button class="arrow-btn"><i class="fa-solid fa-arrow-left"></i></button>
-          <button class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+          <button class="arrow-btn" @click="UniversalSlide('categories', 'back')"><i
+              class="fa-solid fa-arrow-left"></i></button>
+          <button class="arrow-btn" @click="UniversalSlide('categories', 'forward')"><i
+              class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
-      <div class="categories-grid">
+      <div ref="categoryScroller" class="categories-grid dynamic-slider">
         <div class="category-box" tabindex="0" role="button" aria-label="Browse Phones"><img src="/images/i1.png"
             alt="Phone icon" width="58px" class="category-icon-img" />
           <p>Phones</p>
@@ -107,8 +112,10 @@
     <section class="section-container border-top" aria-labelledby="best-selling-heading">
       <div class="section-tag" aria-hidden="true">This Month</div>
       <div class="section-header-row">
-        <h2 id="best-selling-heading" class="section-title">Best Selling Products</h2>
-        <button class="btn-red side-action-btn">View All</button>
+        <h2 class="section-title">Best Selling Products</h2>
+        <NuxtLink to="/products?filter=best-sellers" class="btn-red side-action-btn display-inline-block">
+          View All
+        </NuxtLink>
       </div>
       <div class="products-grid">
         <ProductCard v-for="product in bestSellers" :key="product.id" :product="product" @add-to-cart="addToCart" />
@@ -126,15 +133,19 @@
       <div class="section-header-row">
         <h2 id="explore-heading" class="section-title">Explore Our Products</h2>
         <div class="slider-arrows" aria-hidden="true">
-          <button class="arrow-btn"><i class="fa-solid fa-arrow-left"></i></button>
-          <button class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+          <button class="arrow-btn" @click="UniversalSlide('explore', 'back')"><i
+              class="fa-solid fa-arrow-left"></i></button>
+          <button class="arrow-btn" @click="UniversalSlide('explore', 'forward')"><i
+              class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
-      <div class="products-grid explore-rows">
+      <div ref="exploreScroller" class="products-grid explore-rows dynamic-slider">
         <ProductCard v-for="product in exploreProducts" :key="product.id" :product="product" @add-to-cart="addToCart" />
       </div>
       <div class="center-btn-wrapper">
-        <button class="btn-red text-center">View All Products</button>
+        <NuxtLink to="/products?sort=explore" class="btn-red text-center display-inline-block">
+          View All Products
+        </NuxtLink>
       </div>
     </section>
 
@@ -203,6 +214,79 @@ function addToCart(product) {
   } else {
     cart.value.push({ ...product, quantity: 1 })
   }
+}
+
+const dayView = ref('00')
+const hourView = ref('00')
+const minView = ref('00')
+const secView = ref('00')
+
+let clockTickerId = null
+
+// deadline target = June 5th, 2026
+const closingDate = new Date('June 5, 2026 00:00:00').getTime()
+
+function runClockCalculation() {
+  const rightNow = new Date().getTime()
+  const timeWindowLeft = closingDate - rightNow
+
+  if (timeWindowLeft < 0) {
+    if (clockTickerId) clearInterval(clockTickerId)
+    dayView.value = '00'
+    hourView.value = '00'
+    minView.value = '00'
+    secView.value = '00'
+    return
+  }
+
+  const oneSec = 1000
+  const oneMin = oneSec * 60
+  const oneHour = oneMin * 60
+  const oneDay = oneHour * 24
+
+  const rawDays = Math.floor(timeWindowLeft / oneDay)
+  const rawHours = Math.floor((timeWindowLeft % oneDay) / oneHour)
+  const rawMins = Math.floor((timeWindowLeft % oneHour) / oneMin)
+  const rawSecs = Math.floor((timeWindowLeft % oneMin) / oneSec)
+
+  dayView.value = rawDays < 10 ? '0' + rawDays : String(rawDays)
+  hourView.value = rawHours < 10 ? '0' + rawHours : String(rawHours)
+  minView.value = rawMins < 10 ? '0' + rawMins : String(rawMins)
+  secView.value = rawSecs < 10 ? '0' + rawSecs : String(rawSecs)
+}
+
+onMounted(() => {
+  runClockCalculation()
+  clockTickerId = setInterval(runClockCalculation, 1000)
+})
+
+onUnmounted(() => {
+  if (clockTickerId) clearInterval(clockTickerId)
+})
+
+// slider
+const saleScroller = ref(null)
+const categoryScroller = ref(null)
+const exploreScroller = ref(null)
+
+const sliderTracksDirectory = {
+  flash: saleScroller,
+  categories: categoryScroller,
+  explore: exploreScroller
+}
+
+function UniversalSlide(sectionKey, motionVector) {
+  const targetRefElement = sliderTracksDirectory[sectionKey]?.value
+  if (!targetRefElement) return
+
+  const movementStepX = targetRefElement.clientWidth / 2 || 300
+
+  const operationalShift = motionVector === 'forward' ? movementStepX : -movementStepX
+
+  targetRefElement.scrollBy({
+    left: operationalShift,
+    behavior: 'smooth'
+  })
 }
 </script>
 
