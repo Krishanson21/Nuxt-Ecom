@@ -16,8 +16,40 @@
         </ul>
       </nav>
 
-      <div class="hero-banner">
-        <img src="/images/hero-phone.png" alt="Two iPhone 14" class="hero-phone-img" />
+      <div class="hero-banner" :style="{ '--accent': heroBanners[currentBannerIndex]?.accent }">
+        <transition name="slide-fade" mode="out-in">
+          <div class="banner-inner" :key="currentBannerIndex">
+            <div class="bg-glow" :style="{ background: heroBanners[currentBannerIndex]?.glow }"></div>
+
+            <div class="banner-content">
+              <div v-if="heroBanners[currentBannerIndex]?.brand" class="banner-brand">
+                <img :src="heroBanners[currentBannerIndex].brandLogo" class="banner-brand-logo" />
+                <span>{{ heroBanners[currentBannerIndex].brand }}</span>
+              </div>
+              <h2 class="banner-headline" v-html="heroBanners[currentBannerIndex]?.headline"></h2>
+              <NuxtLink :to="heroBanners[currentBannerIndex]?.ctaLink || '/products'" class="banner-cta">
+                {{ heroBanners[currentBannerIndex]?.ctaText }}
+                <i class="fa-solid fa-arrow-right"></i>
+              </NuxtLink>
+            </div>
+
+            <div class="banner-product-wrap">
+              <img :src="heroBanners[currentBannerIndex]?.image" :alt="heroBanners[currentBannerIndex]?.imageAlt"
+                :style="heroBanners[currentBannerIndex]?.imageStyle"
+                :class="['banner-product-img', heroBanners[currentBannerIndex]?.imageClass]"
+                class="banner-product-img" />
+            </div>
+          </div>
+        </transition>
+
+        <div class="banner-dots">
+          <button v-for="(_, i) in heroBanners" :key="i" class="banner-dot"
+            :class="{ active: i === currentBannerIndex }" @click="resetBannerAutoplay(i)" />
+        </div>
+        <button class="banner-arrow banner-arrow-prev" @click="prevBanner"><i
+            class="fa-solid fa-chevron-left"></i></button>
+        <button class="banner-arrow banner-arrow-next" @click="nextBanner"><i
+            class="fa-solid fa-chevron-right"></i></button>
       </div>
     </section>
 
@@ -60,8 +92,8 @@
       </div>
 
       <div ref="saleScroller" class="products-grid dynamic-slider">
-        <ProductCard v-for="product in flashSaleProducts" :key="product.id" :product="product"
-          @add-to-cart="addToCart" />
+        <ProductCard v-for="product in flashSaleProducts" :key="product.id" :product="product" @add-to-cart="addToCart"
+          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
       <div class="center-btn-wrapper">
         <NuxtLink to="/products" class="btn-red text-center display-inline-block">
@@ -82,30 +114,41 @@
         </div>
       </div>
       <div ref="categoryScroller" class="categories-grid dynamic-slider">
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Phones"><img src="/images/i1.png"
-            alt="Phone icon" width="58px" class="category-icon-img" />
+        <NuxtLink to="/products?category=phones" class="category-box" tabindex="0" role="button"
+          aria-label="Browse Phones">
+          <img src="/images/i1.png" alt="Phone icon" width="58px" class="category-icon-img" />
           <p>Phones</p>
-        </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Computers"><img src="/images/i2.png"
-            alt="Computer icon" class="category-icon-img" />
+        </NuxtLink>
+
+        <NuxtLink to="/products?category=computers" class="category-box" tabindex="0" role="button"
+          aria-label="Browse Computers">
+          <img src="/images/i2.png" alt="Computer icon" class="category-icon-img" />
           <p>Computers</p>
-        </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Smartwatches"><img src="/images/i3.png"
-            alt="Smartwatches icon" class="category-icon-img" />
+        </NuxtLink>
+
+        <NuxtLink to="/products?category=smartwatch" class="category-box" tabindex="0" role="button"
+          aria-label="Browse Smartwatches">
+          <img src="/images/i3.png" alt="Smartwatches icon" class="category-icon-img" />
           <p>SmartWatch</p>
-        </div>
-        <div class="category-box active" tabindex="0" role="button" aria-label="Browse Cameras"><img
-            src="/images/i4.png" alt="Cameras icon" class="category-icon-img" />
+        </NuxtLink>
+
+        <NuxtLink to="/products?category=camera" class="category-box active" tabindex="0" role="button"
+          aria-label="Browse Cameras">
+          <img src="/images/i4.png" alt="Cameras icon" class="category-icon-img" />
           <p>Camera</p>
-        </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Headphones"><img src="/images/i5.png"
-            alt="Headphones icon" class="category-icon-img" />
+        </NuxtLink>
+
+        <NuxtLink to="/products?category=headphones" class="category-box" tabindex="0" role="button"
+          aria-label="Browse Headphones">
+          <img src="/images/i5.png" alt="Headphones icon" class="category-icon-img" />
           <p>HeadPhones</p>
-        </div>
-        <div class="category-box" tabindex="0" role="button" aria-label="Browse Gaming Consoles"><img
-            src="/images/i6.png" alt="Console icon" class="category-icon-img" />
+        </NuxtLink>
+
+        <NuxtLink to="/products?category=gaming" class="category-box" tabindex="0" role="button"
+          aria-label="Browse Gaming Consoles">
+          <img src="/images/i6.png" alt="Console icon" class="category-icon-img" />
           <p>Gaming</p>
-        </div>
+        </NuxtLink>
       </div>
     </section>
 
@@ -117,15 +160,36 @@
           View All
         </NuxtLink>
       </div>
+
       <div class="products-grid">
-        <ProductCard v-for="product in bestSellers" :key="product.id" :product="product" @add-to-cart="addToCart" />
+        <ProductCard v-for="product in bestSellers" :key="product.id" :product="product" @add-to-cart="addToCart"
+          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
     </section>
 
     <section class="promo-music-section" aria-label="Special Speaker Offer Promotion" style="margin-top: 90px;">
-      <div class="promo-img-box">
-        <img src="/images/speaker.png" alt="bluetooth speaker" class="boombox-img" />
-      </div>
+      <section class="promo-music-section" aria-label="Special Offer Promotion" style="margin-top: 10px;">
+        <div class="bg-glow" :style="{ background: promoBanner.glow }"></div>
+
+        <div class="promo-content">
+          <span v-if="promoBanner.category" class="banner-category">{{ promoBanner.category }}</span>
+          <h2 class="banner-headline" v-html="promoBanner.headline"></h2>
+          <div class="banner-countdown">
+            <div class="b-time-unit" v-for="unit in promoTimerUnits" :key="unit.label">
+              <span class="b-time-value">{{ unit.value }}</span>
+              <span class="b-time-label">{{ unit.label }}</span>
+            </div>
+          </div>
+          <NuxtLink :to="promoBanner.ctaLink || '/products'" class="promo-cta">
+            {{ promoBanner.ctaText }}
+          </NuxtLink>
+        </div>
+
+        <div class="promo-img-box">
+          <img :src="promoBanner.image" :alt="promoBanner.imageAlt" class="boombox-img" :class="promoBanner.imageClass"
+            :style="promoBanner.imageStyle" />
+        </div>
+      </section>
     </section>
 
     <section class="section-container" aria-labelledby="explore-heading">
@@ -139,8 +203,10 @@
               class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
+
       <div ref="exploreScroller" class="products-grid explore-rows dynamic-slider">
-        <ProductCard v-for="product in exploreProducts" :key="product.id" :product="product" @add-to-cart="addToCart" />
+        <ProductCard v-for="product in exploreProducts" :key="product.id" :product="product" @add-to-cart="addToCart"
+          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
       <div class="center-btn-wrapper">
         <NuxtLink to="/products?sort=explore" class="btn-red text-center display-inline-block">
@@ -203,91 +269,14 @@
 
 <script setup>
 
-import { flashSaleProducts, bestSellers, exploreProducts } from '../data/products'
-
-const cart = useState('cart', () => [])
-
-function addToCart(product) {
-  const existing = cart.value.find(item => item.id === product.id)
-  if (existing) {
-    existing.quantity++
-  } else {
-    cart.value.push({ ...product, quantity: 1 })
-  }
-}
-
-const dayView = ref('00')
-const hourView = ref('00')
-const minView = ref('00')
-const secView = ref('00')
-
-let clockTickerId = null
-
-// deadline target = June 5th, 2026
-const closingDate = new Date('June 5, 2026 00:00:00').getTime()
-
-function runClockCalculation() {
-  const rightNow = new Date().getTime()
-  const timeWindowLeft = closingDate - rightNow
-
-  if (timeWindowLeft < 0) {
-    if (clockTickerId) clearInterval(clockTickerId)
-    dayView.value = '00'
-    hourView.value = '00'
-    minView.value = '00'
-    secView.value = '00'
-    return
-  }
-
-  const oneSec = 1000
-  const oneMin = oneSec * 60
-  const oneHour = oneMin * 60
-  const oneDay = oneHour * 24
-
-  const rawDays = Math.floor(timeWindowLeft / oneDay)
-  const rawHours = Math.floor((timeWindowLeft % oneDay) / oneHour)
-  const rawMins = Math.floor((timeWindowLeft % oneHour) / oneMin)
-  const rawSecs = Math.floor((timeWindowLeft % oneMin) / oneSec)
-
-  dayView.value = rawDays < 10 ? '0' + rawDays : String(rawDays)
-  hourView.value = rawHours < 10 ? '0' + rawHours : String(rawHours)
-  minView.value = rawMins < 10 ? '0' + rawMins : String(rawMins)
-  secView.value = rawSecs < 10 ? '0' + rawSecs : String(rawSecs)
-}
-
-onMounted(() => {
-  runClockCalculation()
-  clockTickerId = setInterval(runClockCalculation, 1000)
-})
-
-onUnmounted(() => {
-  if (clockTickerId) clearInterval(clockTickerId)
-})
-
-// slider
-const saleScroller = ref(null)
-const categoryScroller = ref(null)
-const exploreScroller = ref(null)
-
-const sliderTracksDirectory = {
-  flash: saleScroller,
-  categories: categoryScroller,
-  explore: exploreScroller
-}
-
-function UniversalSlide(sectionKey, motionVector) {
-  const targetRefElement = sliderTracksDirectory[sectionKey]?.value
-  if (!targetRefElement) return
-
-  const movementStepX = targetRefElement.clientWidth / 2 || 300
-
-  const operationalShift = motionVector === 'forward' ? movementStepX : -movementStepX
-
-  targetRefElement.scrollBy({
-    left: operationalShift,
-    behavior: 'smooth'
-  })
-}
+const {
+  flashSaleProducts, bestSellers, exploreProducts,
+  dayView, hourView, minView, secView,
+  selectedCategory, currentBannerIndex, heroBanners,
+  saleScroller, categoryScroller, exploreScroller,
+  addToCart, handleCardQtyIncrement, handleCardQtyDecrement,
+  UniversalSlide, nextBanner, prevBanner, resetBannerAutoplay,promoBanner,promoTimerUnits,
+} = useHomepage()
 </script>
 
 <style scoped>

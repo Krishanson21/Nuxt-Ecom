@@ -1,8 +1,14 @@
+// nuxt.config.ts
 export default defineNuxtConfig({
+  srcDir: 'app/',
+  serverDir: 'app/server',
+
   imports: {
     dirs: ['auth']
   },
+
   compatibilityDate: '2026-05-21',
+
   app: {
     head: {
       title: 'Exclusive E-Commerce',
@@ -15,8 +21,13 @@ export default defineNuxtConfig({
       ]
     }
   },
-  css: ['@fortawesome/fontawesome-free/css/all.min.css',
+
+  css: [
+    '@fortawesome/fontawesome-free/css/all.min.css',
     '~/assets/css/main.css',
     '~/assets/css/index.css',
-    '~/assets/css/footer.css']
+    '~/assets/css/footer.css',
+    '~/assets/css/about.css',
+    '~/assets/css/contact.css'
+  ]
 })

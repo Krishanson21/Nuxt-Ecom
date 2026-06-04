@@ -74,9 +74,23 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useCartSync } from '~/composables/useCartSync'
 const cart = useState('cart', () => [])
 const subtotal = computed(() => cart.value.reduce((total, item) => total + (item.price * item.quantity), 0))
 function removeItem(id) { cart.value = cart.value.filter(item => item.id !== id) }
+
+const { fetchCartFromDB, syncCartToDB, initializeDeviceSession, isCartLoaded } = useCartSync()
+
+watch(cart, () => {
+  if (isCartLoaded.value) {
+    syncCartToDB()
+  }
+}, { deep: true })
+
+onMounted(() => {
+  initializeDeviceSession()
+  fetchCartFromDB()
+})
 </script>
 
 <style scoped>

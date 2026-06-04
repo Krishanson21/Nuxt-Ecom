@@ -39,54 +39,44 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-// Import all your master datasets directly
-import { flashSaleProducts, bestSellers, exploreProducts } from '../data/products'
+import { flashSaleProducts, bestSellers, exploreProducts } from '../../data/products'
 
 const routeInstance = useRoute()
 const routerInstance = useRouter()
 const cart = useState('cart', () => [])
 
-// Track active query values dynamically inside local components
 const activeFilter = ref('')
 
 function syncURLParameters() {
-  // Capture whatever filter or category value was passed along inside the URL address field
   const currentQueryTag = routeInstance.query.filter || routeInstance.query.sort || routeInstance.query.category
   activeFilter.value = currentQueryTag ? String(currentQueryTag).toLowerCase().trim() : ''
 }
 
-// 🧑‍💻 HUMANIZED: Combine all data records and run an explicit handwritten filtering matrix
 const computedProductFeed = computed(function() {
-  // Step A: Pool every single element from your multi-array data file together seamlessly
   const totalMasterInventory = [
     ...flashSaleProducts,
     ...bestSellers,
     ...exploreProducts
   ]
 
-  // Step B: If no parameters are active or specified, return the entire database array instantly!
   const targetTag = activeFilter.value
   if (!targetTag) {
     return totalMasterInventory
   }
 
-  // Step C: Run a manual procedural extraction loop to separate targeted matches
   const customFilteredResults = []
   let indexPointer = 0
 
   while (indexPointer < totalMasterInventory.length) {
     const currentProduct = totalMasterInventory[indexPointer]
     
-    // Normalize string parameters to ensure solid matching patterns
     const productCategory = currentProduct.category ? currentProduct.category.toLowerCase() : ''
     
-    // Check if item category matches the URL tag, or if the user clicked specific landing rows
     if (
       productCategory === targetTag || 
       targetTag === 'best-sellers' && bestSellers.some(b => b.id === currentProduct.id) ||
       targetTag === 'explore' && exploreProducts.some(e => e.id === currentProduct.id)
     ) {
-      // Deduplicate items to prevent identical items from appearing twice across sections
       if (!customFilteredResults.some(item => item.id === currentProduct.id)) {
         customFilteredResults.push(currentProduct)
       }
@@ -97,7 +87,6 @@ const computedProductFeed = computed(function() {
   return customFilteredResults
 })
 
-// Humanized formatting tag labels for display headers
 const activeFilterLabel = computed(function() {
   if (!activeFilter.value) return null
   return activeFilter.value.replace(/-/g, ' ').toUpperCase()
@@ -105,11 +94,9 @@ const activeFilterLabel = computed(function() {
 
 function resetGlobalCatalog() {
   activeFilter.value = ''
-  // Safely wipe out URL query fields cleanly without refreshing the layout view state
   routerInstance.push('/products')
 }
 
-// Global Cart Actions Sync Manager
 function pushCatalogItemToCart(incomingProduct) {
   let matchedItem = null
   let ptr = 0
@@ -135,7 +122,6 @@ function pushCatalogItemToCart(incomingProduct) {
   }
 }
 
-// Watchers ensure that if a user clicks a route link while already sitting inside this view, it forces an update
 watch(() => routeInstance.query, () => {
   syncURLParameters()
 }, { deep: true })
@@ -178,6 +164,34 @@ onMounted(function() {
     grid-auto-columns: 170px; 
 }
 
+.clear-filter-btn {
+    background: transparent; 
+    border: none;             
+    padding: 6px 12px;
+    color: #7d7d7d;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;                          
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.clear-filter-btn:hover {
+    color: #db4444;                      
+    background-color: rgba(219, 68, 68, 0.05); 
+}
+
+.clear-filter-btn:active {
+    transform: scale(0.96);            
+}
+
+.clear-filter-btn i {
+    font-size: 12px;
+}
 
 @media (max-width: 1024px) {
     .products-grid {

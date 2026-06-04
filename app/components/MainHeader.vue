@@ -13,8 +13,8 @@
         <NuxtLink to="/" class="logo" aria-label="Exclusive E-Commerce Home">Exclusive</NuxtLink>
         <nav class="nav-links" aria-label="Main Navigation">
           <NuxtLink to="/" active-class="active">Home</NuxtLink>
-          <a href="#">Contact</a>
-          <a href="#">About</a>
+          <NuxtLink to="/contact" active-class="active">Contact</NuxtLink>
+          <NuxtLink to="/about" active-class="active">About</NuxtLink>
           <NuxtLink v-if="!isLoggedIn" to="/signup" class="signup-nav-btn" active-class="active">Sign Up</NuxtLink>
         </nav>
 

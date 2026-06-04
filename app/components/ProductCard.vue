@@ -10,31 +10,47 @@
       </span>
 
       <div class="card-icons">
-        <button aria-label="Add item to Wishlist" @click="$emit('add-to-wishlist', product)">
+        <button aria-label="Add item to Wishlist" @click.stop="$emit('add-to-wishlist', product)">
           <i class="fa-regular fa-heart" aria-hidden="true"></i>
         </button>
-        <button aria-label="Quick view product details" @click="$emit('open-preview', product)">
+        <button aria-label="Quick view product details" @click.stop="$emit('open-preview', product)">
           <i class="fa-regular fa-eye" aria-hidden="true"></i>
         </button>
       </div>
 
-      <NuxtLink :to="`/${product.id}`" class="product-image-link">
+      <NuxtLink :to="`/products/${product.id}`" class="product-image-link">
         <img :src="product.image" :alt="product.altText || product.name" class="product-item-img" />
       </NuxtLink>
 
-      <button 
-        class="add-to-cart-btn" 
-        @click="$emit('add-to-cart', product)" 
-        role="button" 
-        :aria-label="`Add ${product.name} to cart`"
-      >
-        Add To Cart
-      </button>
+      <div class="cart-shelf-container" @click.stop>
+        
+        <button 
+          v-if="cartQuantity === 0"
+          class="add-to-cart-btn" 
+          @click="$emit('add-to-cart', product)" 
+          role="button" 
+          :aria-label="`Add ${product.name} to cart`"
+        >
+          Add To Cart
+        </button>
+
+        <div v-else class="card-quantity-stepper">
+          <button class="stepper-step-btn" @click="$emit('decrease-qty', product)" aria-label="Decrease quantity">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <span class="stepper-numerical-display">{{ cartQuantity }}</span>
+          <button class="stepper-step-btn" @click="$emit('increase-qty', product)" aria-label="Increase quantity">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+      </div>
+
     </div>
 
     <div class="card-details">
       <h3>
-        <NuxtLink :to="`/${product.id}`" class="product-title-link">
+        <NuxtLink :to="`/products/${product.id}`" class="product-title-link">
           {{ product.name }}
         </NuxtLink>
       </h3>
@@ -54,14 +70,23 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   product: {
     type: Object,
     required: true
   }
 })
 
-defineEmits(['add-to-cart', 'add-to-wishlist', 'open-preview'])
+defineEmits(['add-to-cart', 'add-to-wishlist', 'open-preview', 'increase-qty', 'decrease-qty'])
+
+const cart = useState('cart', () => [])
+
+const cartQuantity = computed(() => {
+  const matchingBasketItem = cart.value.find(item => item.id === props.product.id)
+  return matchingBasketItem ? matchingBasketItem.quantity : 0
+})
 </script>
 
 <style scoped>
@@ -129,4 +154,57 @@ defineEmits(['add-to-cart', 'add-to-wishlist', 'open-preview'])
     margin: 0;
     padding: 0;
 }
+
+.cart-shelf-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 30;
+}
+
+.card-quantity-stepper {
+    width: 100%;
+    height: 40px;
+    background-color: #000000;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.stepper-step-btn {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background-color 0.2s, transform 0.1s;
+    border-radius: 4px;
+}
+
+.stepper-step-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.stepper-step-btn:active {
+    transform: scale(0.9);
+}
+
+.stepper-numerical-display {
+    min-width: 24px;
+    text-align: center;
+    font-size: 15px;
+    user-select: none;
+}
+
 </style>
