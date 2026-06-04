@@ -20,8 +20,6 @@
     color: #000000;
     font-weight: 500;
 }
-
-/* Story split layout */
 .story-split-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -50,7 +48,6 @@
     object-fit: cover;
 }
 
-/* Stats Matrix block layouts grid grids */
 .stats-matrix-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

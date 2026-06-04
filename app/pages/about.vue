@@ -1,12 +1,9 @@
-<!-- app/pages/about.vue -->
 <template>
   <main class="container about-page-main">
-    <!-- Breadcrumbs Navigation -->
     <div class="breadcrumb-trail">
       <NuxtLink to="/" active-class="active">Home</NuxtLink> <span>/</span> <p>About</p>
     </div>
 
-    <!-- Our Story Section -->
     <section class="story-text-only">
       <h1>Our Story</h1>
       <p>
@@ -17,7 +14,6 @@
       </p>
     </section>
 
-    <!-- Statistics Grid Counters -->
     <section class="stats-matrix-grid">
       <div class="stat-box">
         <div class="stat-icon-outer">
@@ -44,7 +40,6 @@
       </div>
     </section>
 
-    <!-- Team Showcase Section -->
     <section class="team-showcase-grid text-only-team">
       <div class="member-card-plain">
         <h3>Tom Cruise</h3>
@@ -65,7 +60,6 @@
 </template>
 
 <script setup>
-// No form states or submission logic needed here!
 </script>
 
 <style scoped>

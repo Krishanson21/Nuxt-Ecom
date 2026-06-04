@@ -1,14 +1,11 @@
 <template>
   <main class="container contact-page-main">
-    <!-- Breadcrumbs Navigation -->
     <div class="breadcrumb-trail">
       <NuxtLink to="/" active-class="active">Home</NuxtLink> <span>/</span> <p>Contact</p>
     </div>
 
     <div class="contact-split-layout text-only-split">
-      <!-- Left Info Sidebar Panel -->
       <aside class="contact-sidebar-card">
-        <!-- Call to Us Channel -->
         <div class="channel-group">
           <div class="channel-title-row">
             <div class="channel-icon-circle"><i class="fa-solid fa-phone"></i></div>
@@ -20,7 +17,6 @@
 
         <hr class="channel-divider" />
 
-        <!-- Write to Us Channel -->
         <div class="channel-group">
           <div class="channel-title-row">
             <div class="channel-icon-circle"><i class="fa-regular fa-envelope"></i></div>
@@ -32,7 +28,6 @@
         </div>
       </aside>
 
-      <!-- Right Form Message Submission Box -->
       <section class="contact-form-card">
         <form @submit.prevent="submitFormDirectly">
           <div class="form-inputs-trio">
@@ -76,7 +71,6 @@ function submitFormDirectly() {
 <style scoped>
 @import '~/assets/css/contact.css';
 
-/* Spacing patch overrides */
 .text-only-split {
     grid-template-columns: 320px 1fr;
     margin-top: 10px;

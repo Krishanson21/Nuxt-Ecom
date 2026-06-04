@@ -1,7 +1,6 @@
 export function useCartSync() {
   const cart = useState('cart', () => [])
   const deviceFingerprint = useState('device-id', () => null)
-  // 🚀 SAFETY LOCK: Prevents premature database overwrites during initial load/hydration
   const isCartLoaded = useState('is-cart-loaded', () => false)
 
   function initializeDeviceSession() {
@@ -33,13 +32,11 @@ export function useCartSync() {
     } catch (error) {
       console.error('Failed to load database records:', error)
     } finally {
-      // 🚀 UNLOCK: Now that database items are in state, it's safe to sync changes
       isCartLoaded.value = true
     }
   }
 
   async function syncCartToDB() {
-    // 🚀 BLOCK: If the loading process isn't finished yet, don't wipe the DB!
     if (!deviceFingerprint.value || !isCartLoaded.value) return
 
     try {

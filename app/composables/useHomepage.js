@@ -4,14 +4,12 @@ import { useCartSync } from '~/composables/useCartSync'
 import { flashSaleProducts, bestSellers, exploreProducts } from '~/data/products'
 
 export function useHomepage() {
-    // 🛒 Cart Logic
+
     const cart = useState('cart', () => [])
     const { fetchCartFromDB, syncCartToDB, initializeDeviceSession, isCartLoaded } = useCartSync()
 
-    // 🏷️ Category Filter
     const selectedCategory = ref('camera')
 
-    // ⏰ Flash Sale Countdown
     const dayView = ref('00')
     const hourView = ref('00')
     const minView = ref('00')
@@ -19,12 +17,10 @@ export function useHomepage() {
     let clockTickerId = null
     const closingDate = new Date('June 5, 2026 00:00:00').getTime()
 
-    // 🔄 Cart Database Watcher
     watch(cart, () => {
         if (isCartLoaded.value) syncCartToDB()
     }, { deep: true })
 
-    // 🛍️ Cart Mutations
     function addToCart(product) {
         const existing = cart.value.find(item => item.id === product.id)
         if (existing) {
@@ -60,7 +56,6 @@ export function useHomepage() {
         }
     }
 
-    // ⏱️ Flash Sale Timer
     function runClockCalculation() {
         const rightNow = new Date().getTime()
         const timeWindowLeft = closingDate - rightNow
@@ -78,7 +73,6 @@ export function useHomepage() {
         secView.value = String(Math.floor((timeWindowLeft % oneMin) / oneSec)).padStart(2, '0')
     }
 
-    // 🛹 Section Sliders
     const saleScroller = ref(null)
     const categoryScroller = ref(null)
     const exploreScroller = ref(null)
@@ -91,7 +85,6 @@ export function useHomepage() {
         targetRefElement.scrollBy({ left: motionVector === 'forward' ? movementStepX : -movementStepX, behavior: 'smooth' })
     }
 
-    // 🎠 Hero Banner
     const heroBanners = ref([
         {
             brand: 'iPhone 17 Series',
@@ -139,7 +132,6 @@ export function useHomepage() {
         bannerTimer = setInterval(nextBanner, 5000)
     }
 
-    // 🔊 Promo Banner + Timer
     const promoBanner = ref({
         category: 'Categories',
         headline: 'Enhance Your<br>Music Experience',
@@ -166,7 +158,6 @@ export function useHomepage() {
         ]
     })
 
-    // 📅 Single onMounted / onUnmounted
     onMounted(() => {
         initializeDeviceSession()
         fetchCartFromDB()
