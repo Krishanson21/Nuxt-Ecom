@@ -31,10 +31,37 @@
             <img src="/images/cart.png" alt="Shopping Cart" class="navbar-cart-img" />
             <span v-if="cartCount > 0" class="cart-badge" aria-hidden="true">{{ cartCount }}</span>
           </NuxtLink>
-          <div v-if="isLoggedIn" class="account-menu">
-            <button class="account-circle-btn" aria-label="Open User Account Options">
+          <!-- 🚀 AUTHENTICATED USER DROPDOWN DECK -->
+          <div v-if="isLoggedIn" class="account-menu" v-click-outside="closeDropdown">
+            <button 
+              class="account-circle-btn" 
+              :class="{ 'btn-highlight': isDropdownOpen }"
+              @click="isDropdownOpen = !isDropdownOpen" 
+              aria-label="Open User Account Options"
+            >
               <img src="/images/avatar.png" alt="login-avatar" class="avatar-img">
             </button>
+
+            <!-- Floating Overlay Actions Control -->
+            <div class="profile-floating-menu" v-if="isDropdownOpen">
+              <NuxtLink to="/account" @click="closeDropdown">
+                <i class="fa-regular fa-user" aria-hidden="true"></i> Manage My Account
+              </NuxtLink>
+              
+              <NuxtLink to="/account/orders" @click="closeDropdown">
+                <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> My Orders
+              </NuxtLink>
+
+              <NuxtLink to="/cart" @click="closeDropdown">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> My Cart
+              </NuxtLink>
+
+              <hr class="dropdown-divider" />
+              
+              <button class="btn-dropdown-logout" @click="handleLogoutAction">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -49,6 +76,24 @@ const cartCount = computed(() => cart.value.reduce((acc, item) => acc + item.qua
 
 const isLoggedIn = ref(false)
 const currentUser = ref(null)
+
+// 🚀 Dropdown Toggle Controller State
+const isDropdownOpen = ref(false)
+
+function closeDropdown() {
+  isDropdownOpen.value = false
+}
+
+function handleLogoutAction() {
+  isLoggedIn.value = false
+  isDropdownOpen.value = false
+  currentUser.value = null
+  
+  if (process.client) {
+    localStorage.removeItem('active_user_session')
+  }
+  routerInstance.push('/')
+}
 
 onMounted(() => {
   if (process.client) {

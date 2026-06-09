@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     '~/assets/css/index.css',
     '~/assets/css/footer.css',
     '~/assets/css/about.css',
-    '~/assets/css/contact.css'
+    '~/assets/css/contact.css',
+    '~/assets/css/account.css'
   ]
 })

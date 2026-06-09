@@ -22,19 +22,23 @@
 
 .main-header {
     width: 100%;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
-    overflow-x: hidden;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* 🚀 CRITICAL FIX: Ensure this is NOT set to hidden, otherwise it cuts off panels */
+    overflow: visible !important; 
+    position: relative;
+    z-index: 999; /* Keeps the header content resting safely above your homepage banner */
 }
 
 .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     max-width: 1170px;
     margin: 0 auto;
-    padding: 40px 24px 16px 24px;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    /* 🚀 CRITICAL FIX: Remove any overflow rules here too if they exist */
+    overflow: visible !important; 
 }
 
 .logo {
@@ -165,4 +169,87 @@
 .account-circle-btn {
     background: transparent;
     border: none;
+}
+.account-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.account-circle-btn {
+    border-radius: 50%;
+    padding: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.account-circle-btn.btn-highlight, .account-circle-btn:hover {
+    background-color: #ff8c09;
+}
+
+.profile-floating-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 224px;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 4px;
+    padding: 12px 0;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.25);
+    z-index: 99999; 
+    display: flex;
+    flex-direction: column;
+    animation: menuEntranceFade 0.2s ease-out forwards;
+}
+
+.profile-floating-menu a, .btn-dropdown-logout {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profile-floating-menu a i, .btn-dropdown-logout i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.profile-floating-menu a:hover, .btn-dropdown-logout:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e08319;
+}
+
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin: 8px 0;
+}
+
+@keyframes menuEntranceFade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

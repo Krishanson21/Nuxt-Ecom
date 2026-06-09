@@ -1,0 +1,156 @@
+.account-page-main {
+    font-family: 'Poppins', sans-serif;
+    padding-bottom: 100px;
+}
+
+.account-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.breadcrumb-trail {
+    display: flex;
+    gap: 8px;
+    color: #7d7d7d;
+    font-size: 14px;
+}
+.breadcrumb-trail a { text-decoration: none; color: #7d7d7d; }
+.breadcrumb-trail p { color: #000000; font-weight: 500; }
+
+.welcome-text {
+    font-size: 14px;
+    color: #000000;
+}
+.highlight-red {
+    color: #db4444;
+    font-weight: 500;
+}
+
+.account-dashboard-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.account-navigation-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nav-group h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 12px;
+}
+
+.nav-group ul {
+    list-style: none;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-group ul a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #7d7d7d;
+    transition: color 0.2s ease;
+}
+
+.nav-group ul a:hover, .nav-group ul a.active-sidebar-link {
+    color: #e49023;
+}
+
+.account-profile-card {
+    background-color: #ffffff;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 40px 80px;
+}
+
+.account-profile-card h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #f0a13b;
+    margin-bottom: 24px;
+}
+
+.form-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 24px;
+}
+
+.form-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-input-group label {
+    font-size: 14px;
+    color: #000000;
+}
+
+.form-input-group input {
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    width: 100%;
+    color: #000000;
+}
+
+.password-changes-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 30px;
+}
+
+.password-changes-section label {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.form-actions-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 32px;
+}
+
+.btn-cancel-flat {
+    background: transparent;
+    border: none;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: opacity 0.2s ease;
+}
+.btn-cancel-flat:hover { opacity: 0.7; }
+
+.success-log-alert {
+    text-align: right;
+    color: #2e7d32;
+    font-size: 14px;
+    margin-top: 14px;
+    font-weight: 500;
+}
+
+button:disabled { opacity: 0.6; cursor: not-allowed; }
