@@ -116,8 +116,6 @@
     background-color: #ffffff;
     color: #000000;
 }
-
-/* Team cards layout details profile list grids */
 .team-showcase-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

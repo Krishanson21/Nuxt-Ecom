@@ -44,12 +44,15 @@ import { flashSaleProducts, bestSellers, exploreProducts } from '../../data/prod
 const routeInstance = useRoute()
 const routerInstance = useRouter()
 const cart = useState('cart', () => [])
+const searchQuery = ref('')
 
 const activeFilter = ref('')
 
 function syncURLParameters() {
   const currentQueryTag = routeInstance.query.filter || routeInstance.query.sort || routeInstance.query.category
   activeFilter.value = currentQueryTag ? String(currentQueryTag).toLowerCase().trim() : ''
+  
+  searchQuery.value = routeInstance.query.search ? String(routeInstance.query.search).toLowerCase().trim() : ''
 }
 
 const computedProductFeed = computed(function() {
@@ -59,41 +62,48 @@ const computedProductFeed = computed(function() {
     ...exploreProducts
   ]
 
+  let results = totalMasterInventory
+
   const targetTag = activeFilter.value
-  if (!targetTag) {
-    return totalMasterInventory
-  }
-
-  const customFilteredResults = []
-  let indexPointer = 0
-
-  while (indexPointer < totalMasterInventory.length) {
-    const currentProduct = totalMasterInventory[indexPointer]
-    
-    const productCategory = currentProduct.category ? currentProduct.category.toLowerCase() : ''
-    
-    if (
-      productCategory === targetTag || 
-      targetTag === 'best-sellers' && bestSellers.some(b => b.id === currentProduct.id) ||
-      targetTag === 'explore' && exploreProducts.some(e => e.id === currentProduct.id)
-    ) {
-      if (!customFilteredResults.some(item => item.id === currentProduct.id)) {
-        customFilteredResults.push(currentProduct)
+  if (targetTag) {
+    const customFilteredResults = []
+    let indexPointer = 0
+    while (indexPointer < results.length) {
+      const currentProduct = results[indexPointer]
+      const productCategory = currentProduct.category ? currentProduct.category.toLowerCase() : ''
+      if (
+        productCategory === targetTag ||
+        targetTag === 'best-sellers' && bestSellers.some(b => b.id === currentProduct.id) ||
+        targetTag === 'explore' && exploreProducts.some(e => e.id === currentProduct.id)
+      ) {
+        if (!customFilteredResults.some(item => item.id === currentProduct.id)) {
+          customFilteredResults.push(currentProduct)
+        }
       }
+      indexPointer++
     }
-    indexPointer++
+    results = customFilteredResults
+  }
+  if (searchQuery.value) {
+    results = results.filter(p =>
+      p.name?.toLowerCase().includes(searchQuery.value) ||
+      p.category?.toLowerCase().includes(searchQuery.value) ||
+      p.altText?.toLowerCase().includes(searchQuery.value)
+    )
   }
 
-  return customFilteredResults
+  return results
 })
 
 const activeFilterLabel = computed(function() {
+  if (searchQuery.value) return `Search: "${searchQuery.value}"`
   if (!activeFilter.value) return null
   return activeFilter.value.replace(/-/g, ' ').toUpperCase()
 })
 
 function resetGlobalCatalog() {
   activeFilter.value = ''
+  searchQuery.value = '' 
   routerInstance.push('/products')
 }
 

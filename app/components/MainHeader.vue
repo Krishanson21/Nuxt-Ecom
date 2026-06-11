@@ -21,8 +21,16 @@
         <div class="header-actions">
           <div class="search-box">
             <label for="global-search" class="sr-only">Search Products</label>
-            <input id="global-search" type="text" placeholder="What are you looking for?">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input 
+              id="global-search" 
+              type="text" 
+              v-model="searchQuery" 
+              @keyup.enter="handleSearchSubmit"
+              placeholder="What are you looking for?"
+            />
+            <button class="search-submit-btn" @click="handleSearchSubmit" aria-label="Submit search query">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            </button>
           </div>
           <button class="icon-btn-clear" aria-label="View Wishlist">
             <i class="fa-regular fa-heart" aria-hidden="true"></i>
@@ -31,7 +39,6 @@
             <img src="/images/cart.png" alt="Shopping Cart" class="navbar-cart-img" />
             <span v-if="cartCount > 0" class="cart-badge" aria-hidden="true">{{ cartCount }}</span>
           </NuxtLink>
-          <!-- 🚀 AUTHENTICATED USER DROPDOWN DECK -->
           <div v-if="isLoggedIn" class="account-menu" v-click-outside="closeDropdown">
             <button 
               class="account-circle-btn" 
@@ -42,7 +49,6 @@
               <img src="/images/avatar.png" alt="login-avatar" class="avatar-img">
             </button>
 
-            <!-- Floating Overlay Actions Control -->
             <div class="profile-floating-menu" v-if="isDropdownOpen">
               <NuxtLink to="/account" @click="closeDropdown">
                 <i class="fa-regular fa-user" aria-hidden="true"></i> Manage My Account
@@ -77,7 +83,6 @@ const cartCount = computed(() => cart.value.reduce((acc, item) => acc + item.qua
 const isLoggedIn = ref(false)
 const currentUser = ref(null)
 
-// 🚀 Dropdown Toggle Controller State
 const isDropdownOpen = ref(false)
 
 function closeDropdown() {
@@ -104,6 +109,34 @@ onMounted(() => {
     }
   }
 })
+
+import { useRouter } from 'vue-router'
+
+const routerInstance = useRouter()
+
+const searchQuery = ref('')
+
+function handleSearchSubmit() {
+  const cleanQuery = searchQuery.value.trim()
+  if (!cleanQuery) return
+  routerInstance.push(`/products?search=${encodeURIComponent(cleanQuery.toLowerCase())}`)
+  
+  searchQuery.value = ''
+}
+
+const vClickOutside = {
+  mounted(el, binding) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event)
+      }
+    }
+    document.addEventListener('click', el.clickOutsideEvent)
+  },
+  unmounted(el) {
+    document.removeEventListener('click', el.clickOutsideEvent)
+  }
+}
 </script>
 
 <style scoped>

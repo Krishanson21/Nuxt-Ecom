@@ -24,10 +24,9 @@
     width: 100%;
     background-color: #ffffff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* 🚀 CRITICAL FIX: Ensure this is NOT set to hidden, otherwise it cuts off panels */
-    overflow: visible !important; 
+    overflow: visible; 
     position: relative;
-    z-index: 999; /* Keeps the header content resting safely above your homepage banner */
+    z-index: 999;
 }
 
 .header-container {
@@ -37,8 +36,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 0;
-    /* 🚀 CRITICAL FIX: Remove any overflow rules here too if they exist */
-    overflow: visible !important; 
+    overflow: visible; 
 }
 
 .logo {

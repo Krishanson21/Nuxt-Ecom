@@ -1,4 +1,3 @@
-// app/composables/useHomepage.js
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useCartSync } from '~/composables/useCartSync'
 import { flashSaleProducts, bestSellers, exploreProducts } from '~/data/products'
@@ -15,7 +14,7 @@ export function useHomepage() {
     const minView = ref('00')
     const secView = ref('00')
     let clockTickerId = null
-    const closingDate = new Date('June 5, 2026 00:00:00').getTime()
+    const closingDate = new Date('June 15, 2026 00:00:00').getTime()
 
     watch(cart, () => {
         if (isCartLoaded.value) syncCartToDB()
