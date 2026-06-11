@@ -15,8 +15,8 @@ export const flashSaleProducts: Product[] = [
   { id: 1, name: 'HAVIT HV-G92 Gamepad', price: 120, oldPrice: 160, discount: 40, reviews: 88, image: '/images/g1.png', altText: 'gamepad', badge: null, category: 'gaming' },
   { id: 2, name: 'AK-900 Wired Keyboard', price: 960, oldPrice: 1160, discount: 35, reviews: 75, image: '/images/g2.png', altText: 'RGB keyboard', badge: null, category: 'computers' },
   { id: 3, name: 'IPS LCD Gaming Monitor', price: 370, oldPrice: 400, discount: 30, reviews: 99, image: '/images/g3.png', altText: 'gaming monitor', badge: null, category: 'computers' },
-  { id: 4, name: 'S-Series Comfort Chair', price: 375, oldPrice: 400, discount: 25, reviews: 99, image: '/images/g4.png', altText: 'comfort accent chair', badge: null, category: 'gaming' },
-  { id: 5, name: 'S-Series Comfort Chair', price: 375, oldPrice: 400, discount: 25, reviews: 99, image: '/images/g4.png', altText: 'comfort accent chair', badge: null, category: 'gaming' },
+  { id: 4, name: 'S-Series Comfort Chair', price: 375, oldPrice: 400, discount: 25, reviews: 99, image: '/images/g4.png', altText: 'comfort accent chair', badge: null, category: 'camera' },
+  { id: 5, name: 'S-Series Comfort Chair', price: 375, oldPrice: 400, discount: 25, reviews: 99, image: '/images/g4.png', altText: 'comfort accent chair', badge: null, category: 'camera' },
   { id: 6, name: 'IPS LCD Gaming Monitor', price: 370, oldPrice: 400, discount: 30, reviews: 99, image: '/images/g3.png', altText: 'gaming monitor', badge: null, category: 'computers' },
 ];
 

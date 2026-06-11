@@ -21,13 +21,7 @@
         <div class="header-actions">
           <div class="search-box">
             <label for="global-search" class="sr-only">Search Products</label>
-            <input 
-              id="global-search" 
-              type="text" 
-              v-model="searchQuery" 
-              @keyup.enter="handleSearchSubmit"
-              placeholder="What are you looking for?"
-            />
+            <SearchBar />
             <button class="search-submit-btn" @click="handleSearchSubmit" aria-label="Submit search query">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             </button>

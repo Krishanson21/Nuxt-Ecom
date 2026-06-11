@@ -78,14 +78,6 @@
     border-radius: 4px;
 }
 
-.search-box input {
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 12px;
-    width: 211px;
-}
-
 .search-box i {
     position: absolute;
     right: 12px;

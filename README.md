@@ -123,21 +123,63 @@ Cart data and product inventory are managed through MongoDB, handling persistenc
 ```
 ├── app/
 │   ├── assets/
-│   │   └── css/                     # Decoupled stylesheets per module
+│   │   └── css/
+│   │       ├── about.css
+│   │       ├── account.css
+│   │       ├── auth.css
+│   │       ├── cart.css
+│   │       ├── contact.css
+│   │       ├── footer.css
 │   │       ├── header.css
-│   │       └── account.css
+│   │       ├── index.css
+│   │       ├── main.css
+│   │       └── product-details.css
+│   │
+│   ├── auth/
+│   │   ├── useLogin.js
+│   │   └── useSignup.js
+│   │
+│   ├── components/
+│   │   ├── authHeader.vue           # Header shown to authenticated users
+│   │   ├── MainFooter.vue           # Global site footer
+│   │   ├── MainHeader.vue           # Primary navbar with search dropdown
+│   │   └── ProductCard.vue          # Reusable product tile component
 │   │
 │   ├── composables/
-│   │   ├── useHomepage.js           # Slider cycles, auto-scroll, and page timers
-│   │   └── useProductActions.js     # Cart and wishlist logic
+│   │   ├── useCartSync.js           # Syncs cart state with localStorage and MongoDB
+│   │   └── useHomepage.js           # Slider cycles, auto-scroll, and page timers
+│   │
+│   ├── data/
+│   │   └── products.ts              # Typed product data — flash sale, best sellers, explore
+│   │
+│   ├── layouts/
+│   │   ├── auth-lay.vue             # Layout for authenticated user pages
+│   │   └── default.vue              # Default guest layout
 │   │
 │   └── pages/
-│       ├── index.vue                # Main homepage layout
-│       ├── about.vue                # Company overview
-│       ├── contact.vue              # Support form and submission tracking
-│       ├── wishlist.vue             # Saved items grid
-│       └── account/
-│           └── index.vue            # User profile editor and session tracker
+│       ├── account/
+│       │   └── index.vue            # User profile editor and session tracker
+│       │
+│       ├── products/
+│       │   ├── [id].vue             # Individual product detail page
+│       │   └── index.vue            # Full catalog with search and category filter
+│       │
+│       ├── about.vue                # Company overview and brand story
+│       ├── cart.vue                 # Cart page with quantity controls and totals
+│       ├── contact.vue              # Support form with submission tracking
+│       ├── index.vue                # Homepage — hero banner, flash sale, best sellers
+│       ├── login.vue                # Login form and session handler
+│       ├── signup.vue               # New user registration form
+│       └── wishlist.vue             # Saved items grid
+│
+├── server/
+│   └── api/
+│       └── cart.js                  # API route for MongoDB cart operations
+│
+├── utils/
+│   └── db.js                        # MongoDB connection utility
+│
+└── app.vue                          # Root app entry point
 ```
 
 ---
