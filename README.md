@@ -171,6 +171,48 @@ http://localhost:3000
 
 ---
 
+## Pages
+
+| Route | File | Description |
+|---|---|---|
+| `/` | `pages/index.vue` | Homepage with flash sale, best sellers, and explore sections |
+| `/products` | `pages/products/index.vue` | Full catalog with keyword search and category filtering |
+| `/products/:id` | `pages/products/[id].vue` | Single product detail page |
+| `/account` | `pages/account/index.vue` | User profile editor and session manager |
+| `/about` | `pages/about.vue` | Company story and brand overview |
+| `/contact` | `pages/contact.vue` | Support form with submission tracking |
+
+---
+
+### State Management
+
+Cart state is global and reactive using Nuxt's `useState`. No external library is needed — any page or component that calls `useState('cart')` gets the same reactive reference.
+
+```js
+const cart = useState('cart', () => [])
+```
+
+```typescript
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  oldPrice: number | null;
+  discount: number | null;
+  reviews: number;
+  image: string;
+  altText: string;
+  badge: string | null;
+  category: string;
+}
+```
+Products are split into three named exports in `data/products.ts`:
+
+- `flashSaleProducts` — Discounted items with a time-limited badge
+- `bestSellers` — Highest rated and most purchased products
+- `exploreProducts` — New arrivals and curated picks
+
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
