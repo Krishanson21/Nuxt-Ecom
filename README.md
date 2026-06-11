@@ -1,4 +1,4 @@
-Exclusive E-Commerce
+<!-- Exclusive E-Commerce
 
 Core System Features
 
@@ -61,4 +61,117 @@ Deployment and Installation
 3. Execute npm install to download build dependencies and package modules.
 4. Execute npm run dev to boot up the local Node server framework tracking instance.
 5. Launch your machine web browser and open http://localhost:3000 to preview.
->>>>>>> a40dcf98352c54e452a6b68b01ec81aa4f0a4422
+>>>>>>> a40dcf98352c54e452a6b68b01ec81aa4f0a4422 -->
+
+<div align="center">
+
+# Exclusive
+
+A modern e-commerce storefront built with Nuxt 3 and Vue 3.
+
+![Nuxt 3](https://img.shields.io/badge/Nuxt-3.x-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white)
+![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-7.x-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+</div>
+
+---
+
+## Overview
+
+Exclusive is a responsive e-commerce storefront built with Nuxt 3 and Vue 3. It covers the essentials of a modern shopping experience — a dynamic hero banner, reactive product search, persistent cart and session data, and a clean layout system that handles both authenticated and guest states.
+
+---
+
+## Core Features
+
+**Dynamic Hero Banner**
+Rotates promotional content automatically every 5 seconds. Each slide supports independent background glow effects and custom image sizing.
+
+**Reactive Inventory Search**
+Intercepts user input from the header search field and handles routing redirects to the product catalog, passing the query as a URL parameter.
+
+**Contextual Account Menu**
+A floating overlay panel anchored to the user avatar. Appears on click and closes when the user interacts outside of it.
+
+**Layout System**
+Separate layout designs for authenticated users, guests, and the login screen. Layout dimensions are constrained to prevent inner header scrollbars across all states.
+
+**Offline Storage Persistence**
+Cart contents and user session data are synchronized to `localStorage`, keeping item counts and login state intact across page refreshes.
+
+**MongoDB Integration**
+Cart data and product inventory are managed through MongoDB, handling persistence and data operations on the backend.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Nuxt 3 — Vue 3 Composition API |
+| Styling | Vanilla CSS, organized in `assets/css/` |
+| Icons | Font Awesome 6 — Solid and Regular sets |
+| State | Nuxt `useState` combined with `localStorage` |
+| Database | MongoDB — cart and inventory handling |
+
+---
+
+## Project Structure
+
+```
+├── app/
+│   ├── assets/
+│   │   └── css/                     # Decoupled stylesheets per module
+│   │       ├── header.css
+│   │       └── account.css
+│   │
+│   ├── composables/
+│   │   ├── useHomepage.js           # Slider cycles, auto-scroll, and page timers
+│   │   └── useProductActions.js     # Cart and wishlist logic
+│   │
+│   └── pages/
+│       ├── index.vue                # Main homepage layout
+│       ├── about.vue                # Company overview
+│       ├── contact.vue              # Support form and submission tracking
+│       ├── wishlist.vue             # Saved items grid
+│       └── account/
+│           └── index.vue            # User profile editor and session tracker
+```
+
+---
+
+## Getting Started
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/your-username/exclusive.git
+cd exclusive
+```
+
+**2. Install dependencies**
+
+```bash
+npm install
+```
+
+**3. Start the development server**
+
+```bash
+npm run dev
+```
+
+**4. Open in your browser**
+
+```
+http://localhost:3000
+```
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
