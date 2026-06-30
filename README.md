@@ -1,261 +1,160 @@
-<!-- Exclusive E-Commerce
-
-Core System Features
-
-<<<<<<< HEAD
-Dynamic Hero Banner : Automates promotional shifts every 5 seconds. Supports independent background glows, custom image sizing.
-Reactive Inventory Search: Intercepts input field entry and handles routing redirect rules.
-Contextual Account Menu: Uses an absolute floating overlay panel triggered by user avatar interaction.
-Layout Seperate layouts designs for with auth and without auth and for login Restricts layout dimensions to eliminate inner header scrollbars.
-Offline Storage Persistence: Synchronizes current system arrays into browser localStorage. Keeps item counts and user session data intact across page refreshes.
-MOngoDB used for cart and inventory handeling.
-The Tech Stack
-
-Framework: Nuxt 3 (Vue 3 with Composition API)
-Styling: Custom Vanilla CSS (Organized externally in assets/css/)
-Icons Library: Font Awesome 6 (Solid & Regular sets)
-State Management: Native Nuxt useState combined with browser localStorage for offline session persistence.
-Structural Code Blueprint Plaintext ├── app/ │ ├── assets/ │ │ └── css/ # Decoupled design systems (header.css, account.css) │ ├── composables/ │ │ ├── useHomepage.js # Manages loop cycles, sliders, and page timers │ │ └── useProductActions.js # Centralizes separated cart and wishlist logic │ └── pages/ │ ├── index.vue # Main homepage layout template │ ├── about.vue # Text-driven company overview profile │ ├── contact.vue # Support form interface and submission tracking │ ├── wishlist.vue # Dynamic grid for items saved for later │ └── account/ │ └── index.vue # User detail editor and session tracker
-
-Deployment and Installation
-
-Clone this project repository to your local operating system directory.
-Open your system terminal inside the root project directory folder.
-Execute npm install to download build dependencies and package modules.
-Execute npm run dev to boot up the local Node server framework tracking instance.
-Launch your machine web browser and open http://localhost:3000 to preview.
-=======
-1. Dynamic Hero Banner : Automates promotional shifts every 5 seconds. Supports independent background glows, custom image sizing.
-2. Reactive Inventory Search: Intercepts input field entry and handles routing redirect rules.
-3. Contextual Account Menu: Uses an absolute floating overlay panel triggered by user avatar interaction.
-4. Layout Seperate layouts designs for with auth and without auth and for login Restricts layout dimensions to eliminate inner header scrollbars.
-5. Offline Storage Persistence: Synchronizes current system arrays into browser localStorage. Keeps item counts and user session data intact across page refreshes.
-6. MOngoDB used for cart and inventory handeling.
-
-The Tech Stack
-1. Framework: Nuxt 3 (Vue 3 with Composition API)
-2. Styling: Custom Vanilla CSS (Organized externally in assets/css/)
-3. Icons Library: Font Awesome 6 (Solid & Regular sets)
-4. State Management: Native Nuxt useState combined with browser localStorage for offline session persistence.
-
-Structural Code Blueprint
-Plaintext
-├── app/
-│   ├── assets/
-│   │   └── css/           # Decoupled design systems (header.css, account.css)
-│   ├── composables/
-│   │   ├── useHomepage.js       # Manages loop cycles, sliders, and page timers
-│   │   └── useProductActions.js # Centralizes separated cart and wishlist logic
-│   └── pages/
-│       ├── index.vue      # Main homepage layout template
-│       ├── about.vue      # Text-driven company overview profile
-│       ├── contact.vue    # Support form interface and submission tracking
-│       ├── wishlist.vue   # Dynamic grid for items saved for later
-│       └── account/
-│           └── index.vue  # User detail editor and session tracker
-
-
-Deployment and Installation
-1. Clone this project repository to your local operating system directory.
-2. Open your system terminal inside the root project directory folder.
-3. Execute npm install to download build dependencies and package modules.
-4. Execute npm run dev to boot up the local Node server framework tracking instance.
-5. Launch your machine web browser and open http://localhost:3000 to preview.
->>>>>>> a40dcf98352c54e452a6b68b01ec81aa4f0a4422 -->
-
-<div align="center">
-
 # Exclusive
 
-A modern e-commerce storefront built with Nuxt 3 and Vue 3.
+Exclusive is a Nuxt/Vue e-commerce storefront with product browsing, cart and wishlist persistence, account profile management, checkout order creation, and a private rewards dashboard.
 
-![Nuxt 3](https://img.shields.io/badge/Nuxt-3.x-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white)
-![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-7.x-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+## Project Docs
 
-</div>
+- Product requirements: [PRD-rewards-gamification.md](./PRD-rewards-gamification.md)
+- Issue backlog: [ISSUES-rewards-gamification.md](./ISSUES-rewards-gamification.md)
+- Client brief: [client-brief.md](./client-brief.md)
 
----
-
-## Overview
-
-Exclusive is a responsive e-commerce storefront built with Nuxt 3 and Vue 3. It covers the essentials of a modern shopping experience — a dynamic hero banner, reactive product search, persistent cart and session data, and a clean layout system that handles both authenticated and guest states.
-
----
-
-## Core Features
-
-**Dynamic Hero Banner**
-Rotates promotional content automatically every 5 seconds. Each slide supports independent background glow effects and custom image sizing.
-
-**Reactive Inventory Search**
-Intercepts user input from the header search field and handles routing redirects to the product catalog, passing the query as a URL parameter.
-
-**Contextual Account Menu**
-A floating overlay panel anchored to the user avatar. Appears on click and closes when the user interacts outside of it.
-
-**Layout System**
-Separate layout designs for authenticated users, guests, and the login screen. Layout dimensions are constrained to prevent inner header scrollbars across all states.
-
-**Offline Storage Persistence**
-Cart contents and user session data are synchronized to `localStorage`, keeping item counts and login state intact across page refreshes.
-
-**MongoDB Integration**
-Cart data and product inventory are managed through MongoDB, handling persistence and data operations on the backend.
-
----
+`README.md` is the canonical project README. Older duplicate README drafts have been removed to avoid stale setup or architecture notes.
 
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Nuxt 3 — Vue 3 Composition API |
-| Styling | Vanilla CSS, organized in `assets/css/` |
-| Icons | Font Awesome 6 — Solid and Regular sets |
-| State | Nuxt `useState` combined with `localStorage` |
-| Database | MongoDB — cart and inventory handling |
-
----
-
-## Project Structure
-
-```
-├── app/
-│   ├── assets/
-│   │   └── css/
-│   │       ├── about.css
-│   │       ├── account.css
-│   │       ├── auth.css
-│   │       ├── cart.css
-│   │       ├── contact.css
-│   │       ├── footer.css
-│   │       ├── header.css
-│   │       ├── index.css
-│   │       ├── main.css
-│   │       └── product-details.css
-│   │
-│   ├── auth/
-│   │   ├── useLogin.js
-│   │   └── useSignup.js
-│   │
-│   ├── components/
-│   │   ├── authHeader.vue           # Header shown to authenticated users
-│   │   ├── MainFooter.vue           # Global site footer
-│   │   ├── MainHeader.vue           # Primary navbar with search dropdown
-│   │   └── ProductCard.vue          # Reusable product tile component
-│   │
-│   ├── composables/
-│   │   ├── useCartSync.js           # Syncs cart state with localStorage and MongoDB
-│   │   └── useHomepage.js           # Slider cycles, auto-scroll, and page timers
-│   │
-│   ├── data/
-│   │   └── products.ts              # Typed product data — flash sale, best sellers, explore
-│   │
-│   ├── layouts/
-│   │   ├── auth-lay.vue             # Layout for authenticated user pages
-│   │   └── default.vue              # Default guest layout
-│   │
-│   └── pages/
-│       ├── account/
-│       │   └── index.vue            # User profile editor and session tracker
-│       │
-│       ├── products/
-│       │   ├── [id].vue             # Individual product detail page
-│       │   └── index.vue            # Full catalog with search and category filter
-│       │
-│       ├── about.vue                # Company overview and brand story
-│       ├── cart.vue                 # Cart page with quantity controls and totals
-│       ├── contact.vue              # Support form with submission tracking
-│       ├── index.vue                # Homepage — hero banner, flash sale, best sellers
-│       ├── login.vue                # Login form and session handler
-│       ├── signup.vue               # New user registration form
-│       └── wishlist.vue             # Saved items grid
-│
-├── server/
-│   └── api/
-│       └── cart.js                  # API route for MongoDB cart operations
-│
-├── utils/
-│   └── db.js                        # MongoDB connection utility
-│
-└── app.vue                          # Root app entry point
-```
-
----
+| --- | --- |
+| Framework | Nuxt 4 / Vue 3 |
+| Styling | Vanilla CSS in `app/assets/css/` |
+| State | Nuxt `useState` plus `localStorage` for current demo auth/cart state |
+| Database | MongoDB |
+| Tests | Node built-in test runner |
 
 ## Getting Started
 
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/your-username/exclusive.git
-cd exclusive
-```
-
-**2. Install dependencies**
-
 ```bash
 npm install
-```
-
-**3. Start the development server**
-
-```bash
 npm run dev
 ```
 
-**4. Open in your browser**
+The dev server runs at `http://localhost:3000` by default.
 
-```
-http://localhost:3000
-```
+Required environment variables:
 
----
-
-## Pages
-
-| Route | File | Description |
-|---|---|---|
-| `/` | `pages/index.vue` | Homepage with flash sale, best sellers, and explore sections |
-| `/products` | `pages/products/index.vue` | Full catalog with keyword search and category filtering |
-| `/products/:id` | `pages/products/[id].vue` | Single product detail page |
-| `/account` | `pages/account/index.vue` | User profile editor and session manager |
-| `/about` | `pages/about.vue` | Company story and brand overview |
-| `/contact` | `pages/contact.vue` | Support form with submission tracking |
-
----
-
-### State Management
-
-Cart state is global and reactive using Nuxt's `useState`. No external library is needed — any page or component that calls `useState('cart')` gets the same reactive reference.
-
-```js
-const cart = useState('cart', () => [])
+```bash
+MONGODB_URI=mongodb+srv://...
 ```
 
-```typescript
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  oldPrice: number | null;
-  discount: number | null;
-  reviews: number;
-  image: string;
-  altText: string;
-  badge: string | null;
-  category: string;
+## Scripts
+
+```bash
+npm run dev      # start local development server
+npm run build    # production build
+npm run preview  # preview production build
+npm test         # run reward rule unit tests
+```
+
+No lint script is currently configured.
+
+## Rewards And Orders API
+
+All private reward and order calls require a stable user identity header:
+
+```http
+x-user-key: user:<id-or-email>
+```
+
+Anonymous demo users use a device-scoped key generated in `app/composables/useRewards.js`.
+
+### `POST /api/orders`
+
+Creates a completed order and returns the persisted order ID and total.
+
+Request body:
+
+```json
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Product name",
+      "price": 99,
+      "quantity": 1,
+      "image": "/images/example.png"
+    }
+  ]
 }
 ```
-Products are split into three named exports in `data/products.ts`:
 
-- `flashSaleProducts` — Discounted items with a time-limited badge
-- `bestSellers` — Highest rated and most purchased products
-- `exploreProducts` — New arrivals and curated picks
+Response:
 
+```json
+{
+  "success": true,
+  "orderId": "...",
+  "orderTotal": 99
+}
+```
 
-## License
+Validation rejects missing user identity, empty carts, missing product IDs, non-positive prices, and invalid quantities.
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+### `GET /api/rewards`
 
+Returns the current customer's private rewards summary.
+
+Response shape:
+
+```json
+{
+  "totalPoints": 150,
+  "tier": "Bronze",
+  "nextTier": "Silver",
+  "nextTierAt": 1000,
+  "progressToNextTier": 15,
+  "weeklyStreak": 1,
+  "dailyCheckInClaimedToday": false,
+  "recentRewards": [],
+  "rewardHistory": []
+}
+```
+
+### `POST /api/rewards`
+
+Awards points for a supported reward action and returns the updated summary.
+
+Supported actions:
+
+| Action | Metadata | Duplicate rule |
+| --- | --- | --- |
+| `purchase` | `orderId`, `orderTotal` | Once per order ID |
+| `profile_completed` | Optional `source` | Once per user |
+| `wishlist_add` | `productId`, optional `productName` | Once per user per product ID |
+| `daily_check_in` | Optional `claimedAt` | Once per calendar day |
+
+Duplicate reward attempts return:
+
+```json
+{
+  "skipped": true,
+  "summary": {}
+}
+```
+
+Invalid actions or missing required metadata return a consistent error response:
+
+```json
+{
+  "error": "Unknown reward action"
+}
+```
+
+## Project Structure
+
+```text
+app/
+  assets/css/          Page and component styles
+  auth/                Local demo auth composables
+  components/          Shared UI components
+  composables/         Cart, homepage, and reward state
+  data/products.ts     Product data
+  layouts/             Nuxt layouts
+  pages/               Route pages
+  server/api/          Cart, order, and reward API routes
+  server/utils/        MongoDB and reward rule utilities
+public/images/         Static product and UI assets
+tests/                 Node test files
+```
+
+## Current Production Caveat
+
+The rewards MVP still uses localStorage-backed demo identity on the frontend. Before production launch, replace that with server-side users or a dedicated auth provider so login, profile, cart, wishlist, orders, and rewards all share a stable backend user ID.

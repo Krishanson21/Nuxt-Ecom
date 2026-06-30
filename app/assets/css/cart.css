@@ -46,6 +46,15 @@
     border-radius: 4px;
 }
 
+.cart-product-image {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    background: var(--light-bg);
+    border-radius: 4px;
+    padding: 6px;
+}
+
 .remove-btn {
     position: absolute;
     left: -10px;
@@ -192,4 +201,20 @@
     .cart-row {
         grid-template-columns: 1fr;
     }
+}
+
+.checkout-message,
+.checkout-error {
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.checkout-message {
+    color: #2e7d32;
+}
+
+.checkout-error {
+    color: var(--primary);
 }

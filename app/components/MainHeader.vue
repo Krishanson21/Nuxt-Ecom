@@ -21,8 +21,8 @@
         <div class="header-actions">
           <div class="search-box">
             <label for="global-search" class="sr-only">Search Products</label>
-            <SearchBar />
-            <button class="search-submit-btn" @click="handleSearchSubmit" aria-label="Submit search query">
+            <SearchBar ref="searchBarRef" />
+            <button class="search-submit-btn" @click="submitHeaderSearch" aria-label="Submit search query">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             </button>
           </div>
@@ -73,6 +73,7 @@
 import { computed } from 'vue'
 const cart = useState('cart', () => [])
 const cartCount = computed(() => cart.value.reduce((acc, item) => acc + item.quantity, 0))
+const searchBarRef = ref(null)
 
 const isLoggedIn = ref(false)
 const currentUser = ref(null)
@@ -108,14 +109,8 @@ import { useRouter } from 'vue-router'
 
 const routerInstance = useRouter()
 
-const searchQuery = ref('')
-
-function handleSearchSubmit() {
-  const cleanQuery = searchQuery.value.trim()
-  if (!cleanQuery) return
-  routerInstance.push(`/products?search=${encodeURIComponent(cleanQuery.toLowerCase())}`)
-  
-  searchQuery.value = ''
+function submitHeaderSearch() {
+  searchBarRef.value?.submitSearch()
 }
 
 const vClickOutside = {

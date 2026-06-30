@@ -26,9 +26,16 @@ export function useLogin() {
           return
         }
 
+        if (!foundUser.userId) {
+          foundUser.userId = `user_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
+          localStorage.setItem('registered_users', JSON.stringify(registeredUsers))
+        }
+
         localStorage.setItem('active_user_session', JSON.stringify({
+          userId: foundUser.userId,
           name: foundUser.name,
-          emailOrPhone: foundUser.emailOrPhone
+          emailOrPhone: foundUser.emailOrPhone,
+          email: foundUser.emailOrPhone?.includes('@') ? foundUser.emailOrPhone : ''
         }))
 
         alert(`Welcome back, ${foundUser.name}!`)

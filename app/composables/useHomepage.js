@@ -1,11 +1,14 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useCartSync } from '~/composables/useCartSync'
+import { useRewards } from '~/composables/useRewards'
 import { flashSaleProducts, bestSellers, exploreProducts } from '~/data/products'
 
 export function useHomepage() {
 
     const cart = useState('cart', () => [])
+    const wishlist = useState('wishlist', () => [])
     const { fetchCartFromDB, syncCartToDB, initializeDeviceSession, isCartLoaded } = useCartSync()
+    const { awardReward } = useRewards()
 
     const selectedCategory = ref('camera')
 
@@ -27,6 +30,7 @@ export function useHomepage() {
         } else {
             cart.value.push({
                 id: product.id,
+                name: product.name,
                 title: product.name,
                 price: product.price,
                 image: product.image,
@@ -52,6 +56,15 @@ export function useHomepage() {
                 cart.value = cart.value.filter(item => item.id !== targetProduct.id)
             }
             if (process.client) localStorage.setItem('user_shopping_cart', JSON.stringify(cart.value))
+        }
+    }
+
+    async function addToWishlist(product) {
+        const exists = wishlist.value.some(item => item.id === product.id)
+        if (!exists) {
+            wishlist.value.push(product)
+            if (process.client) localStorage.setItem('user_wishlist', JSON.stringify(wishlist.value))
+            await awardReward('wishlist_add', { productId: product.id, productName: product.name })
         }
     }
 
@@ -159,6 +172,10 @@ export function useHomepage() {
 
     onMounted(() => {
         initializeDeviceSession()
+        if (process.client) {
+            const savedWishlist = localStorage.getItem('user_wishlist')
+            if (savedWishlist) wishlist.value = JSON.parse(savedWishlist)
+        }
         fetchCartFromDB()
         runClockCalculation()
         clockTickerId = setInterval(runClockCalculation, 1000)
@@ -177,7 +194,7 @@ export function useHomepage() {
         dayView, hourView, minView, secView,
         selectedCategory, currentBannerIndex, heroBanners,
         saleScroller, categoryScroller, exploreScroller,
-        addToCart, handleCardQtyIncrement, handleCardQtyDecrement,
+        addToCart, addToWishlist, handleCardQtyIncrement, handleCardQtyDecrement,
         UniversalSlide, nextBanner, prevBanner, resetBannerAutoplay,
         promoBanner, promoTimerUnits,
     }

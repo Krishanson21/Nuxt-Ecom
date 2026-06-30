@@ -28,13 +28,14 @@
         <div role="row" v-for="item in cart" :key="item.id" class="cart-row">
           <div role="cell" class="product-cell">
             <button class="remove-btn" @click="removeItem(item.id)"
-              :aria-label="`Remove ${item.name} from cart`">×</button>
-            <span class="product-thumb" aria-hidden="true">{{ item.icon }}</span>
-            <span>{{ item.name }}</span>
+              :aria-label="`Remove ${item.name || item.title} from cart`">x</button>
+            <img v-if="item.image" :src="item.image" :alt="item.name || item.title" class="cart-product-image" />
+            <span v-else class="product-thumb" aria-hidden="true">{{ item.icon }}</span>
+            <span>{{ item.name || item.title }}</span>
           </div>
           <div role="cell">${{ item.price }}</div>
           <div role="cell">
-            <label :for="`qty-${item.id}`" class="sr-only">Quantity for {{ item.name }}</label>
+            <label :for="`qty-${item.id}`" class="sr-only">Quantity for {{ item.name || item.title }}</label>
             <input :id="`qty-${item.id}`" type="number" v-model.number="item.quantity" min="1" class="qty-input" />
           </div>
           <div role="cell">${{ item.price * item.quantity }}</div>
@@ -64,7 +65,13 @@
           <div class="total-line"><span>Subtotal:</span> <span>${{ subtotal }}</span></div>
           <div class="total-line"><span>Shipping:</span> <span>Free</span></div>
           <div class="total-line grand"><span>Total:</span> <span>${{ subtotal }}</span></div>
-          <div class="center-btn"><button class="btn-red">Proceed to checkout</button></div>
+          <div class="center-btn">
+            <button class="btn-red" :disabled="isCheckingOut" @click="completeCheckout">
+              {{ isCheckingOut ? 'Processing...' : 'Proceed to checkout' }}
+            </button>
+          </div>
+          <p v-if="checkoutMessage" class="checkout-message">{{ checkoutMessage }}</p>
+          <p v-if="checkoutError" class="checkout-error">{{ checkoutError }}</p>
         </div>
       </div>
 
@@ -73,13 +80,56 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useCartSync } from '~/composables/useCartSync'
+import { getRewardUserKey, useRewards } from '~/composables/useRewards'
 const cart = useState('cart', () => [])
 const subtotal = computed(() => cart.value.reduce((total, item) => total + (item.price * item.quantity), 0))
 function removeItem(id) { cart.value = cart.value.filter(item => item.id !== id) }
+const isCheckingOut = ref(false)
+const checkoutMessage = ref('')
+const checkoutError = ref('')
+const { awardReward } = useRewards()
 
 const { fetchCartFromDB, syncCartToDB, initializeDeviceSession, isCartLoaded } = useCartSync()
+
+function updateCart() {
+  cart.value = cart.value
+    .filter(item => Number(item.quantity) > 0)
+    .map(item => ({ ...item, quantity: Math.max(1, Number(item.quantity || 1)) }))
+  if (process.client) localStorage.setItem('user_shopping_cart', JSON.stringify(cart.value))
+  syncCartToDB()
+}
+
+async function completeCheckout() {
+  if (cart.value.length === 0 || isCheckingOut.value) return
+
+  isCheckingOut.value = true
+  checkoutMessage.value = ''
+  checkoutError.value = ''
+
+  try {
+    const order = await $fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'x-user-key': getRewardUserKey() },
+      body: { items: cart.value }
+    })
+
+    await awardReward('purchase', {
+      orderId: order.orderId,
+      orderTotal: order.orderTotal
+    })
+
+    cart.value = []
+    if (process.client) localStorage.setItem('user_shopping_cart', JSON.stringify([]))
+    await syncCartToDB()
+    checkoutMessage.value = `Order complete. You earned ${Math.floor(order.orderTotal)} reward points.`
+  } catch (error) {
+    checkoutError.value = 'Checkout could not be completed. Please try again.'
+  } finally {
+    isCheckingOut.value = false
+  }
+}
 
 watch(cart, () => {
   if (isCartLoaded.value) {

@@ -21,7 +21,8 @@
         v-for="item in computedProductFeed" 
         :key="item.id" 
         :product="item" 
-        @add-to-cart="pushCatalogItemToCart" 
+        @add-to-cart="pushCatalogItemToCart"
+        @add-to-wishlist="addCatalogItemToWishlist"
       />
     </div>
 
@@ -44,7 +45,9 @@ import { flashSaleProducts, bestSellers, exploreProducts } from '../../data/prod
 const routeInstance = useRoute()
 const routerInstance = useRouter()
 const cart = useState('cart', () => [])
+const wishlist = useState('wishlist', () => [])
 const searchQuery = ref('')
+const { awardReward } = useRewards()
 
 const activeFilter = ref('')
 
@@ -124,10 +127,23 @@ function pushCatalogItemToCart(incomingProduct) {
   } else {
     cart.value.push({
       id: incomingProduct.id,
-      title: incomingProduct.title,
+      name: incomingProduct.name,
+      title: incomingProduct.name,
       price: incomingProduct.price,
       image: incomingProduct.image,
       quantity: 1
+    })
+  }
+}
+
+async function addCatalogItemToWishlist(incomingProduct) {
+  const exists = wishlist.value.some(item => item.id === incomingProduct.id)
+  if (!exists) {
+    wishlist.value.push(incomingProduct)
+    if (process.client) localStorage.setItem('user_wishlist', JSON.stringify(wishlist.value))
+    await awardReward('wishlist_add', {
+      productId: incomingProduct.id,
+      productName: incomingProduct.name
     })
   }
 }
@@ -138,6 +154,10 @@ watch(() => routeInstance.query, () => {
 
 onMounted(function() {
   syncURLParameters()
+  if (process.client) {
+    const savedWishlist = localStorage.getItem('user_wishlist')
+    if (savedWishlist) wishlist.value = JSON.parse(savedWishlist)
+  }
 })
 </script>
 

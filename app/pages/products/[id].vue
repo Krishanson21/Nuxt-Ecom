@@ -84,7 +84,7 @@
             Buy Now
           </button>
           
-          <button class="favorite-toggle-btn" aria-label="Bookmark item to wishlist">
+          <button class="favorite-toggle-btn" aria-label="Bookmark item to wishlist" @click="addProductToWishlist">
             <i class="fa-regular fa-heart"></i>
           </button>
         </div>
@@ -113,13 +113,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { flashSaleProducts, bestSellers, exploreProducts } from '~/data/products'
 
 const routeInstance = useRoute()
 const cart = useState('cart', () => [])
+const wishlist = useState('wishlist', () => [])
 const selectedQuantity = ref(1)
+const { awardReward } = useRewards()
 
 const product = computed(() => {
   const urlParamId = String(routeInstance.params.id).trim()
@@ -140,6 +142,7 @@ function addSelectedToCart() {
   } else {
     cart.value.push({
       id: product.value.id,
+      name: product.value.name,
       title: product.value.name,
       price: product.value.price,
       image: product.value.image,
@@ -151,6 +154,26 @@ function addSelectedToCart() {
   }
   selectedQuantity.value = 1
 }
+
+async function addProductToWishlist() {
+  if (!product.value) return
+  const exists = wishlist.value.some(item => item.id === product.value.id)
+  if (!exists) {
+    wishlist.value.push(product.value)
+    if (process.client) localStorage.setItem('user_wishlist', JSON.stringify(wishlist.value))
+    await awardReward('wishlist_add', {
+      productId: product.value.id,
+      productName: product.value.name
+    })
+  }
+}
+
+onMounted(() => {
+  if (process.client) {
+    const savedWishlist = localStorage.getItem('user_wishlist')
+    if (savedWishlist) wishlist.value = JSON.parse(savedWishlist)
+  }
+})
 </script>
 
 <style scoped>

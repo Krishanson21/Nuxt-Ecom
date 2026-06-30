@@ -50,7 +50,8 @@ export function useSignup() {
           return
         }
 
-        existingUsers.push({ name, emailOrPhone, password })
+        const userId = `user_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
+        existingUsers.push({ userId, name, emailOrPhone, password })
         localStorage.setItem('registered_users', JSON.stringify(existingUsers))
 
         alert('Account registered successfully!')

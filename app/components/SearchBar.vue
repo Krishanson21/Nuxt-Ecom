@@ -1,5 +1,4 @@
 <template>
-  <template>
   <div v-click-outside="closeSearchDropdown" style="display: contents;">
     <label for="global-search" class="sr-only">Search Products</label>
     <input
@@ -50,7 +49,6 @@
   <div class="search-dropdown-empty">No products found for "{{ searchQuery }}"</div>
 </div>
   </div>
-</template>
 </template>
 
 <script setup>
@@ -125,6 +123,10 @@ function handleSearchSubmit() {
   searchDropdownVisible.value = false
   selectedIndex.value = -1
 }
+
+defineExpose({
+  submitSearch: handleSearchSubmit
+})
 
 const vClickOutside = {
   mounted(el, binding) {

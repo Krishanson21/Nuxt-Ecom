@@ -93,7 +93,7 @@
 
       <div ref="saleScroller" class="products-grid dynamic-slider">
         <ProductCard v-for="product in flashSaleProducts" :key="product.id" :product="product" @add-to-cart="addToCart"
-          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
+          @add-to-wishlist="addToWishlist" @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
       <div class="center-btn-wrapper">
         <NuxtLink to="/products" class="btn-red text-center display-inline-block">
@@ -163,7 +163,7 @@
 
       <div class="products-grid">
         <ProductCard v-for="product in bestSellers" :key="product.id" :product="product" @add-to-cart="addToCart"
-          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
+          @add-to-wishlist="addToWishlist" @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
     </section>
 
@@ -206,7 +206,7 @@
 
       <div ref="exploreScroller" class="products-grid explore-rows dynamic-slider">
         <ProductCard v-for="product in exploreProducts" :key="product.id" :product="product" @add-to-cart="addToCart"
-          @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
+          @add-to-wishlist="addToWishlist" @increase-qty="handleCardQtyIncrement" @decrease-qty="handleCardQtyDecrement" />
       </div>
       <div class="center-btn-wrapper">
         <NuxtLink to="/products?sort=explore" class="btn-red text-center display-inline-block">
@@ -219,23 +219,22 @@
       <div class="section-tag" aria-hidden="true">Featured</div>
       <h2 id="new-arrival-heading" class="section-title text-block-gap">New Arrival</h2>
       <div class="arrival-mosaic-grid">
-        <div class="mosaic-large bg-black">
+        <div class="mosaic-card bg-black">
           <img src="/images/ps5.png" alt="A white PlayStation 5 gaming console standing vertically"
             class="mosaic-img-cover" />
         </div>
-        <div class="mosaic-right-split">
-          <div class="mosaic-wide bg-black">
-            <img src="/images/woman.png" alt="A woman wearing a wide-brimmed black hat" class="mosaic-img-cover" />
-          </div>
-          <div class="mosaic-double-box">
-            <div class="mosaic-small bg-black">
-              <img src="/images/speakers-small.png" alt="Two black smart speakers standing next to each other"
-                class="mosaic-img-sm" />
-            </div>
-            <div class="mosaic-small bg-black">
-              <img src="/images/perfume.png" alt="A luxury glass bottle of Gucci perfume" class="mosaic-img-sm" />
-            </div>
-          </div>
+
+        <div class="mosaic-card bg-black">
+          <img src="/images/woman.png" alt="A woman wearing a wide-brimmed black hat" class="mosaic-img-cover" />
+        </div>
+
+        <div class="mosaic-card bg-black">
+          <img src="/images/speakers-small.png" alt="Two black smart speakers standing next to each other"
+            class="mosaic-img-sm" />
+        </div>
+
+        <div class="mosaic-card bg-black">
+          <img src="/images/perfume.png" alt="A luxury glass bottle of Gucci perfume" class="mosaic-img-sm" />
         </div>
       </div>
     </section>
@@ -274,7 +273,7 @@ const {
   dayView, hourView, minView, secView,
   selectedCategory, currentBannerIndex, heroBanners,
   saleScroller, categoryScroller, exploreScroller,
-  addToCart, handleCardQtyIncrement, handleCardQtyDecrement,
+  addToCart, addToWishlist, handleCardQtyIncrement, handleCardQtyDecrement,
   UniversalSlide, nextBanner, prevBanner, resetBannerAutoplay,promoBanner,promoTimerUnits,
 } = useHomepage()
 </script>
